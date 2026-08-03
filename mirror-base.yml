@@ -1,0 +1,46 @@
+# Shared base for every spec in this repository (kubernetes).
+#
+# NOT a spec: it has no name/target/source and is never loaded on its own.
+# Everything a package owns — name, target, source, assets, asset_type,
+# bin_scan, metadata, catalog, tests, versions, announce, annotations — stays
+# in that package's own mirror.yml.
+#
+# ⚠️ `extends:` is a SHALLOW merge of top-level keys. A spec that sets a key
+# below replaces that block OUTRIGHT — there is no per-key merge.
+#
+# NO `platforms:` block here, deliberately (the mirror-kitware model): the
+# container matrix is downstream of a per-package libc measurement, and the
+# k8s release binaries are not uniform — kubectl measures static, kubelet is
+# the classic dynamically-linked suspect. Each spec carries its own measured
+# `platforms:` block next to its own evidence comment, so the two cannot be
+# split by a shallow merge.
+
+skip_prereleases: true
+cascade: true
+
+# Fleet default: a cascade tag (`latest`, `1`, `1.36`) re-points on every
+# re-publish; without a build segment the new manifest would reuse the bare
+# version tag and orphan the prior digest for registry GC. Kubernetes versions
+# are bare semver (no `+build` metadata), so `date` stamps cleanly.
+build_timestamp: date
+
+# No `verify:` block. `github_asset_digest` is a github_release-source option
+# and this repo's only source is `url_index` — the kubernetes/kubernetes GitHub
+# releases carry no binary assets; binaries come from dl.k8s.io. dl.k8s.io
+# publishes `.sha256` sidecars per binary, but there is no `checksums_file`
+# document to point at, so the gap is recorded here rather than assumed.
+# Downloads are HTTPS from dl.k8s.io (the official k8s release CDN).
+
+concurrency:
+  # Single raw binaries (~50-60 MB each) — nothing archive-shaped to expand.
+  max_downloads: 8
+  max_bundles: 4
+  max_pushes: 2
+  rate_limit_ms: 100
+  max_retries: 3
+  compression_threads: 0
+
+notify:
+  discord:
+    webhook_secret: OCX_MIRROR_DISCORD_HOOK
+    user_id: "227748867204972545"  # pinged in-message on failures
