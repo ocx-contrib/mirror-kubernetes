@@ -48,8 +48,8 @@ source:
 # and v1.36.3, all 200). Upstream also ships 386/s390x/ppc64le and the
 # node/control-plane binaries; the generator never emits them.
 #
-# Incremental rollout (Phase 10): linux first; darwin lands in pass 2 and
-# windows in pass 3 — uncomment below and regenerate CI.
+# Rolled out incrementally (Phase 10): linux pass 1, darwin pass 2,
+# windows pass 3 — all six platforms live since 2026-08-03.
 assets:
   linux/amd64:
     - "^kubectl-linux-amd64$"
@@ -59,10 +59,10 @@ assets:
     - "^kubectl-darwin-amd64$"
   darwin/arm64:
     - "^kubectl-darwin-arm64$"
-  # windows/amd64:
-  #   - "^kubectl-windows-amd64\\.exe$"
-  # windows/arm64:
-  #   - "^kubectl-windows-arm64\\.exe$"
+  windows/amd64:
+    - "^kubectl-windows-amd64\\.exe$"
+  windows/arm64:
+    - "^kubectl-windows-arm64\\.exe$"
 
 asset_type:
   # Raw binary on every platform — dl.k8s.io ships no archive. The asset lands
