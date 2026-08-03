@@ -55,10 +55,10 @@ assets:
     - "^kubectl-linux-amd64$"
   linux/arm64:
     - "^kubectl-linux-arm64$"
-  # darwin/amd64:
-  #   - "^kubectl-darwin-amd64$"
-  # darwin/arm64:
-  #   - "^kubectl-darwin-arm64$"
+  darwin/amd64:
+    - "^kubectl-darwin-amd64$"
+  darwin/arm64:
+    - "^kubectl-darwin-arm64$"
   # windows/amd64:
   #   - "^kubectl-windows-amd64\\.exe$"
   # windows/arm64:
