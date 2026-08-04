@@ -89,7 +89,7 @@ versions:
   # Older lines stay with upstream / OS package managers.
   min: "1.36.0"
   new_per_run: 5
-  poll_interval: "0 */6 * * *"
+  poll_interval: "4 1-23/6 * * *"
 
 tests:
   # `script:` resolves from the REPOSITORY ROOT — unlike `metadata.default` and
